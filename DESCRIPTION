@@ -1,6 +1,0 @@
-Package: 2023.rpharma.mmrm
-Version: 1.0.0
-Title: R/Pharma 2023 mmrm Workshop
-Description: R/Pharma 2023 mmrm Workshop.
-Depends:
-  rmarkdown
