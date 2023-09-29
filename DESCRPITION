@@ -1,2 +1,5 @@
+Package: 2023.rpharma.mmrm
+Title: R/Pharma 2023 mmrm Workshop
+Description: R/Pharma 2023 mmrm Workshop.
 Depends:
   rmarkdown
