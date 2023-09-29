@@ -1,15 +1,19 @@
 ---
 title: "R/Pharma `mmrm` Workshop"
-format: html
 engine: knitr
+webr: 
+  show-startup-message: true
+  packages:
+  - mmrm
 filters:
   - webr
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+## `mmrm` Quick Start
 
 ```{webr-r}
-print("Hello, World")
+mmrm(
+  formula = FEV1 ~ RACE + SEX + ARMCD * AVISIT + us(AVISIT | USUBJID),
+  data = fev_data
+)
 ```
