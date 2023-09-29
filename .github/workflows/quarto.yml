@@ -24,8 +24,7 @@ jobs:
       - name: Setup R Dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 1
-          extra-packages: |
+          packages:
             any::rmarkdown
 
       - name: Publish to GitHub Pages (and render) 
