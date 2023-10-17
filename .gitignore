@@ -1,3 +1,6 @@
 /.quarto/
 *.html
 *_files/
+.Rproj.user
+
+.Rhistory

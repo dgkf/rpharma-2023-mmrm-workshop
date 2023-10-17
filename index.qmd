@@ -1,19 +1,216 @@
 ---
-title: "R/Pharma `mmrm` Workshop"
-engine: knitr
-webr: 
-  show-startup-message: true
-  packages:
-  - mmrm
-filters:
-  - webr
+title: "From the statistical method to the R package - the `mmrm` example"
+author: "Daniel Sabanés Bové, Doug Kelkhoff (Roche)"
+institute: "R/Pharma Workshop"
+date: "October 19 2023"
+date-format: long
+format: 
+  revealjs:
+    fontsize: 2rem
+    slide-number: true
+    footer: 'From the statistical method to the R package - the `mmrm` example | [License](http://creativecommons.org/licenses/by-sa/4.0/ "License: CC BY-SA 4.0")'
 ---
 
-## `mmrm` Quick Start
+## What we will cover today
 
-```{webr-r}
-mmrm(
-  formula = FEV1 ~ RACE + SEX + ARMCD * AVISIT + us(AVISIT | USUBJID),
-  data = fev_data
-)
+* Show practical steps for obtaining an R package implementation of a statistical method
+  * Discuss key considerations for writing statistical software
+  * Illustrate throughout with the `mmrm` package development example
+* Short hands-on introduction to the `mmrm` package
+  * Working together across companies and in open source
+
+## Why does this matter in Pharma?
+
+"*The credibility* of the numerical results of the analysis *depends on the quality and validity of the methods and software* (both internally and externally written) used both for data management [...] and also *for processing the data statistically*. [...] The *computer software* used for data management and statistical analysis *should be reliable*, and documentation of *appropriate software testing* procedures should be available."
+
+[ICH Topic E 9: Statistical Principles for Clinical Trials, Section 5.8: Integrity of Data and Computer Software Validity]
+
+## How can we achive this?
+
+How can we implement statistical methods in R such that
+
+- the software is reliable and 
+- includes appropriate testing
+
+to ensure 
+
+- high quality and 
+- validity 
+
+and ultimately credibility of the statistical analysis results? 
+
+## Take away lessons for writing statistical software
+
+1. Choose the right methods and understand them.
+1. Solve the core implementation problem with prototype code.
+1. Spend enough time on planning the design of the R package.
+1. Assume that your R package will be evolving for a long time.
+
+# Choose the right methods and understand them
+
+## Why is this important?
+
+"*The credibility* of the numerical results of the analysis *depends on the quality and validity of the methods* and software ..."
+
+* If we don't choose the right method, then the best software implementation of it won't help the credibility of the statistical analysis!
+* Work together with methods experts (internal, external, ...)
+
+## How can we understand the statistical method?
+
+We need to understand the method before implementing it!
+
+- It is not sufficient to just copy/paste code from methods experts
+- Let the methods experts present a summary of the methods
+- Read an overview paper about the methods
+- Paraphrase and ask lots of clarifying questions
+- Understand the details by reading the original paper describing the method
+
+## Example: `mmrm`
+
+- Understand the acronym: Mixed Model with Repeated Measures 
+- Understand the method: It is *not* a mixed model, just a general linear model
+  - Read an overview paper
+- Understand the problem: In R we did not get the correct adjusted degrees of freedom
+  - Try out existing R packages and compare results with proprietary software
+  - Read paper describing the adjusted degrees of freedom
+  
+## Example: `mmrm` (fast forward)
+
+- Initial implementation with `lme4` workaround (see previous R/Pharma presentation)
+- Works only quite ok for small data sets with few time points
+- Does not converge and takes hours on large data sets with many time points
+- Therefore needed to look for another solution
+
+# Solve the core implementation problem with prototype code
+
+## What is prototype code?
+
+- Can come in different forms, but 
+  - is not an R package yet, 
+  - not documented with `roxygen2`, 
+  - not unit tested
+- It works usually quite well to have an `Rmd` or `qmd` document to combine thoughts and code
+- Typically an R script from a methods expert that implements the method can be the start for a prototype
+
+## When have you solved the core implementation problem?
+
+- You have R code that allows you to (half-manually) calculate the results with the chosen methods
+- Different methods options have been elicited from experts, considered and could be used
+- You have evaluated different solution paths (e.g. using package A or package B as a backbone)
+- You feel that you have solved the hardest part of the problem - everything else is clear how to do it
+- (If possible) You have compared the numerical results from your R code with other software,
+  and they match up to numerical accuracy (e.g. relative difference of 0.001)
+
+## Example: `mmrm` - try to use existing packages
+
+- The hardest part: adjusted degrees of freedom calculation
+- Tried different solutions with existing R packages:
+  - using package `nlme` with `emmeans` (results are too different, calculation is too approximate)
+  - using package `lme4` with `lmerTest` (fails on large data sets with many time points)
+  - using package `glmmTMB` (does not have adjusted degrees of freedom)ß
+
+## Example: `mmrm` - try to extend existing package
+
+Tried to extend `glmmTMB` to calculate Satterthwaite adjusted degrees of freedom:
+
+- Got in touch with `glmmTMB` authors and Ben Bolker provided great help and assistance
+- Unfortunately it did not work out (results were very far off for unstructed covariance)
+- Understand that `glmmTMB` always uses a random effects model representation which is not what we want
+
+## Example: `mmrm` - try to make a custom implementation
+
+Idea was then to use the Template Model Builder (`TMB`) library directly:
+
+- As the name suggests, `TMB` is also used by `glmmTMB` as the backend
+- We can code with `C++` the likelihood of the model we exactly need (general linear model without random effects)
+- The magic: `TMB` allows to automatically differentiate the (log) likelihood (i.e. by compiling the `C++` code)
+- The gradient (and Hessian) can then be used from the R side to find the (restricted) maximum likelihood estimates
+- Within a long weekend, got a working prototype that was fast and matched proprietary software results nicely
+
+# Spend enough time on planning the design of the R-package
+
+## Why not jump into writing functions right away?
+
+- Need to see the "big picture" first to know how each piece should look like
+  - Including definition of the scope of the package - what should be included vs. not
+  - Important to discuss "big picture" plan with experts and users regarding workflow
+- When writing a function you should do it together with documentation and unit tests
+  - If you just start somewhere, chances are very high that you will need to change it later
+
+## How to plan the design of the R-package?
+
+1. Start with blank sheet of paper to draw flow diagram 
+   - What parts (functions and classes) can represent the problem most naturally?
+1. Draft a bit more details in doc 
+   - Which arguments for functions, which slots for classes? Names?
+1. Go into `Rmd` design document and draft prototypes for functions and classes
+1. Break down design into separate issues (tasks) to implement
+   - Make notes of dependencies and resulting order of implementation
+  
+## Example: `mmrm`
+
+- Have a single `Rmd` as initial design document including prototypes
+
+```{r}
+#| echo: false
+#| warning: false
+#| class-output: "sourceCode r"
+
+cat(readLines("resources/design_fit.Rmd"), sep = "\n")
 ```
+
+## Example: `mmrm` (cont'd)
+
+- Have separate issues and corresponding pull requests implementing functions
+
+![](resources/issues.png)
+
+# Assume your R-package is evolving for a long time
+
+## Why should we document the methods?
+
+- It is important to add method documentation in your package, typically as a vignette
+- This provides the "glue" between the original methods paper and your implementation in code
+  - different mathematical symbols compared to original paper but that match the code variable names
+  - specific details on the algorithm
+- Users benefit from this method documentation a lot because they can understand what is going on in your package
+- Developers will depend on the method documentation when adding new method features and to understand the code
+
+## Why do we need tests?
+
+- It is 100% guaranteed that users will have new feature requests after the first version of the R package has been released 
+  - This is a good sign - the package is being used and your users have good ideas!
+- It is also very likely that some of the packages you depend on will change - but you want to be sure your package still works 
+  - incl. integration tests, making sure numerical results are still correct
+- So you will need to change the code ...
+  - ... but you can only do that comfortably if you know that the package still works afterwards
+  - If the tests pass you know it still works!
+
+## How can I make the package extensible?
+
+- "Extensible" = others can extend it without changing package code
+- You want to make your package extensible so that you or other developers can easily extend it
+- Prefer to combine multiple functions in pipelines (similar as typically done in tidyverse)
+- Prefer object oriented package designs because it will help a lot the extensibility 
+- Generally avoid functions with many arguments or longer than 50 lines of code
+
+## Example: `mmrm` - method documentation
+
+- Started with handwritten notes of the algorithm implementation for the prototype
+- Translated that into vignette
+- Has been updated many times already when algorithm was updated
+- Meanwhile have in total 12 different vignettes on different aspects
+
+##  {background-iframe="https://openpharma.github.io/mmrm/latest-tag/articles/algorithm.html" background-interactive="true"}
+
+## Example: `mmrm` - tests
+
+- Add tests, code documentation and method documentation during each pull request for each function
+  - Add integration tests comparing numerical results with numbers sourced from proprietary software
+  - Some tests can take longer, if run time becomes an issue can skip them on CRAN
+- Turned out tests were super important because minor `C++` changes could break results on different operating system
+
+## Example: `mmrm` - extensibility
+
+- This is a typical "model fitting" package and therefore we use the S3 class system
+  - Over time can add interfaces to other modeling packages (more later)
