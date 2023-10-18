@@ -18,6 +18,8 @@ format:
   * Illustrate throughout with the `mmrm` package development example
 * Short hands-on introduction to the `mmrm` package
   * Working together across companies and in open source
+  
+# Key considerations for writing statistical R packages
 
 ## Why does this matter in Pharma?
 
@@ -201,7 +203,7 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - Has been updated many times already when algorithm was updated
 - Meanwhile have in total 12 different vignettes on different aspects
 
-##  {background-iframe="https://openpharma.github.io/mmrm/latest-tag/articles/algorithm.html" background-interactive="true"}
+## {background-iframe="https://openpharma.github.io/mmrm/latest-tag/articles/algorithm.html" background-interactive="true"}
 
 ## Example: `mmrm` - tests
 
@@ -214,3 +216,129 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 
 - This is a typical "model fitting" package and therefore we use the S3 class system
   - Over time can add interfaces to other modeling packages (more later)
+  
+# Introduction to the `mmrm` package
+
+## Installation
+
+- CRAN as usual: `install.packages("mmrm")` 
+  - Lags a bit behind at the moment (due to CRAN manual review bottleneck)
+- GitHub as usual: `remotes::install_github("openpharma/mmrm")`
+  - But needs `C++` toolchain and can take quite a while to compile
+- R-Universe: [https://openpharma.r-universe.dev/mmrm](https://openpharma.r-universe.dev/mmrm) and download the binary package and install afterwards
+  - Somehow the `install.packages()` path from R does not find the binaries
+
+## Features of `mmrm` (>= 0.3)
+
+- Linear model for dependent observations within independent subjects
+- Covariance structures for the dependent observations:
+  - Unstructured, Toeplitz, AR1, compound symmetry, ante-dependence, spatial exponential
+  - Allows group specific covariance estimates and weights
+- REML or ML estimation, using multiple optimizers if needed
+- Robust sandwich estimator for covariance
+- Degrees of freedom adjustments: 
+  Satterthwaite, Kenward-Roger, Kenward-Roger-Linear, Between-Within, Residual
+
+## Ecosystem integration
+
+- `emmeans` interface for least square means
+- `tidymodels` for easy model fitting:
+  - Dedicated `parsnip` engine for linear regression
+  - Integration with `recipes`
+- NEST family for clinical trial reporting:
+  - `tern.mmrm` to easily generate common tables and plot (coming to CRAN soon)
+  - `teal.modules.clinical` to easily spin up Shiny app based on the `teal` framework (coming to CRAN soon)
+- Provided by third party packages (remember the extensibility discussion):
+  - interfaces to `insight`, `parameters`
+
+## Unit and integration testing
+
+- Unit tests can be found in the GitHub repository under [./tests](https://github.com/openpharma/mmrm/tree/main/tests/testthat).
+- Uses the `testthat` framework with `covr` to communicate the testing coverage.
+  - Coverage above 95%
+  - Also include tests for key `C++` functions
+- The integration tests in `mmrm` are set to a standard tolerance of $10^{-3}$ when compared to other software outputs
+  - Comparison with SAS results (`PROC MIXED`)
+  - Comparison with relevant R packages
+
+## Benchmarking with other R packages
+
+- Compared `mmrm::mmrm` with `nlme::gls`, `lme4::lmer`, `glmmTMB::glmmTMB`
+- Highlights:
+  - `mmrm` has faster convergence time 
+    - Using `FEV` dataset as an example, `mmrm` took ~50 ms, while `lmer` ~200 ms, `gls` and `glmmTMB` >600 ms
+  - `mmrm` and `gls` estimates have smaller differences from SAS `PROC GLIMMIX` estimates
+  - `mmrm` and `gls` are more resilient to missingness
+- Detailed results at the online [comparison vignette](https://openpharma.github.io/mmrm/main/articles/mmrm_review_methods.html)
+
+## Impact of `mmrm`
+
+- CRAN downloads: around 100 per day in Oct 2023
+  - [https://cran.r-project.org/web/packages/mmrm/](https://cran.r-project.org/web/packages/mmrm/) 
+  - new CRAN release v0.3 coming any day now!
+- GitHub repository: 73 stars as of 17 Oct 2023
+  - [https://github.com/openpharma/mmrm](https://github.com/openpharma/mmrm) 
+- Part of CRAN clinical trials task view
+
+## Outlook
+
+- `mmrm` is now relatively complete for mostly needed features
+- We still have a few major ideas on our backlog:
+  - Type II and Type III ANOVA tests
+  - Evaluate adding (simple) random effects
+- Please let us know what is missing in `mmrm` for you!
+
+# Hands-On Demo Time!
+
+## Demo Instructions
+
+Doug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?
+
+# Open source development across companies
+
+## Introducing `openstatsware`
+
+::: columns
+::: {.column width="70%"}
+Founded last year: 
+
+- When: 19 August 2022 - just celebrated our 1 year birthday!
+- Where: American Statistical Association (ASA) Biopharmaceutical Section (BIOP)
+- Initially: 11 statisticians from 7 pharma companies developing statistical software
+- New name: `openstatsware`
+:::
+
+::: {.column width="30%"}
+![](https://github.com/RConsortium/asa-biop-swe-wg/raw/main/sticker/sticker-new-1200.png){height="300"}
+:::
+:::
+
+## `mmrm` was our first workstream
+
+- Why is the MMRM topic important?
+  - MMRM is a popular analysis method for longitudinal continuous outcomes in randomized clinical trials
+  - Also used as backbone for more recent methods such as multiple imputation
+- See also our second workstream that produced [`brms.mmrm`](https://openpharma.github.io/brms.mmrm/)
+  - Bayesian inference in MMRM, based on `brms` (as Stan frontend for HMC sampling)
+
+## Human success factors
+
+- Mutual interest and mutual trust
+- Prerequisite is getting to know each other
+  - Although mostly just online, biweekly calls help a lot with this
+- Reciprocity mindset
+  - "Reciprocity means that in response to friendly actions, people are frequently much nicer and much more cooperative than predicted by the self-interest model"
+  - Personal experience: If you first give away something, more will come back to you.
+
+## Be inclusive in the development
+
+- Important to go public as soon as possible 
+  - We did not wait for `mmrm` to be finished before initial open sourcing
+  - Many developers contributed over time
+- Building software together works better than alone
+  - Different perspectives in discussions and code review help to optimize the user interface and thus experience
+  - Be generous with authorship
+
+## Practical daily development process
+
+Doug would you like to add here a few slides?
