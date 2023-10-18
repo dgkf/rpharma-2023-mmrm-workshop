@@ -292,7 +292,17 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 
 ## Demo Instructions
 
-Doug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?
+::: columns
+::: {.column width="50%"}
+* Head to [posit.cloud]()
+* Open the "`{mmrm}` Workbench" Space
+* Open the `mmrm-introduction.Rmd`
+:::
+
+::: {.column width="50%"}
+![](resources/mmrm-workbench-posit-cloud.png)
+:::
+:::
 
 # Open source development across companies
 
@@ -341,4 +351,94 @@ Founded last year:
 
 ## Practical daily development process
 
-Doug would you like to add here a few slides?
+Let's take a look at what it looks like in action. 
+
+> **Case Study:** `simulate()` feature
+> We'll follow the addition of a major `v0.3.0` feature, tracking its progress 
+> our team's workflow.
+
+## 1. Open Communication During Design
+
+::: columns
+::: {.column width="30%"}
+Features start with a discussion to make sure we're aligned with the need and 
+approach.
+:::
+
+::: {.column width="70%"}
+![](resources/dev-feature-request.png)
+:::
+:::
+
+## 2. Live Discussion at Bi-weekly Call
+
+Bi-weekly calls allow an opportunity to discuss the details of an approach 
+in more depth. 
+
+::: columns
+::: {.column width="50%"}
+### Live Chat
+
+* Great for initial planning,
+* and aligning on final details
+:::
+
+::: {.column width="50%"}
+### Async Discussion Threads
+
+* Great for mocking up proposals
+* Visual/code-based content like user-interface proposals
+* Technical details
+:::
+:::
+
+## 3. Initial Implementation
+
+After deciding on the path forward, feature is often assigned out to an
+an individual and an initial pass is put forth through a PR.
+
+::: columns
+::: {.column width="30%"}
+The initial work is put forth with confidence about _what_ needs to be done, but
+perhaps not _how_ it needs to be done
+:::
+
+::: {.column width="70%"}
+![](resources/dev-pr.png)
+:::
+:::
+
+## 4. Review
+
+::: columns
+::: {.column width="30%"}
+Many small decisions recieve feedback until all concerns have been addressed.
+:::
+
+::: {.column width="70%"}
+![](resources/dev-review.png)
+:::
+:::
+
+## 5. Merge 🎉
+
+::: columns
+::: {.column width="30%"}
+When all concerns have been addressed, new code is introduced.
+:::
+
+::: {.column width="70%"}
+![](resources/dev-merge.png)
+:::
+:::
+
+## Workflow Recap
+
+1. Discussion preceeds work on new features
+1. Alignment is emphasized at Bi-weekly calls before embarking on development
+1. Volunteer-based implmentation, depending on availability, expertise and interest
+1. Calls allow for intermitent feedback throughout - especially important for larger features
+1. PR submitted, with appropiately intensive review
+1. When concerns are addressed, feature is incorporated
+
+
