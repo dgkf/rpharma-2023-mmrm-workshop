@@ -214,7 +214,7 @@
     "href": "index.html#demo-instructions",
     "title": "From the statistical method to the R package - the mmrm example",
     "section": "Demo Instructions",
-    "text": "Demo Instructions\nDoug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?"
+    "text": "Demo Instructions\n\n\n\nHead to posit.cloud\nOpen the “{mmrm} Workbench” Space\nOpen the mmrm-introduction.Rmd"
   },
   {
     "objectID": "index.html#introducing-openstatsware",
@@ -249,6 +249,48 @@
     "href": "index.html#practical-daily-development-process",
     "title": "From the statistical method to the R package - the mmrm example",
     "section": "Practical daily development process",
-    "text": "Practical daily development process\nDoug would you like to add here a few slides?\n\n\nFrom the statistical method to the R package - the mmrm example | License"
+    "text": "Practical daily development process\nLet’s take a look at what it looks like in action.\n\nCase Study: simulate() feature We’ll follow the addition of a major v0.3.0 feature, tracking its progress our team’s workflow."
+  },
+  {
+    "objectID": "index.html#open-communication-during-design",
+    "href": "index.html#open-communication-during-design",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "1. Open Communication During Design",
+    "text": "1. Open Communication During Design\n\n\nFeatures start with a discussion to make sure we’re aligned with the need and approach."
+  },
+  {
+    "objectID": "index.html#live-discussion-at-bi-weekly-call",
+    "href": "index.html#live-discussion-at-bi-weekly-call",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "2. Live Discussion at Bi-weekly Call",
+    "text": "2. Live Discussion at Bi-weekly Call\nBi-weekly calls allow an opportunity to discuss the details of an approach in more depth.\n\n\nLive Chat\n\nGreat for initial planning,\nand aligning on final details\n\n\nAsync Discussion Threads\n\nGreat for mocking up proposals\nVisual/code-based content like user-interface proposals\nTechnical details"
+  },
+  {
+    "objectID": "index.html#initial-implementation",
+    "href": "index.html#initial-implementation",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "3. Initial Implementation",
+    "text": "3. Initial Implementation\nAfter deciding on the path forward, feature is often assigned out to an an individual and an initial pass is put forth through a PR.\n\n\nThe initial work is put forth with confidence about what needs to be done, but perhaps not how it needs to be done"
+  },
+  {
+    "objectID": "index.html#review",
+    "href": "index.html#review",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "4. Review",
+    "text": "4. Review\n\n\nMany small decisions recieve feedback until all concerns have been addressed."
+  },
+  {
+    "objectID": "index.html#merge",
+    "href": "index.html#merge",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "5. Merge 🎉",
+    "text": "5. Merge 🎉\n\n\nWhen all concerns have been addressed, new code is introduced."
+  },
+  {
+    "objectID": "index.html#workflow-recap",
+    "href": "index.html#workflow-recap",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Workflow Recap",
+    "text": "Workflow Recap\n\nDiscussion preceeds work on new features\nAlignment is emphasized at Bi-weekly calls before embarking on development\nVolunteer-based implmentation, depending on availability, expertise and interest\nCalls allow for intermitent feedback throughout - especially important for larger features\nPR submitted, with appropiately intensive review\nWhen concerns are addressed, feature is incorporated\n\n\n\nFrom the statistical method to the R package - the mmrm example | License"
   }
 ]

@@ -2124,7 +2124,17 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 </section>
 <section id="demo-instructions" class="slide level2">
 <h2>Demo Instructions</h2>
-<p>Doug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Head to <a href="">posit.cloud</a></li>
+<li>Open the “<code>{mmrm}</code> Workbench” Space</li>
+<li>Open the <code>mmrm-introduction.Rmd</code></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="resources/mmrm-workbench-posit-cloud.png"></p>
+</div>
+</div>
 </section></section>
 <section>
 <section id="open-source-development-across-companies" class="title-slide slide level1 center">
@@ -2193,7 +2203,82 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 </section>
 <section id="practical-daily-development-process" class="slide level2">
 <h2>Practical daily development process</h2>
-<p>Doug would you like to add here a few slides?</p>
+<p>Let’s take a look at what it looks like in action.</p>
+<blockquote>
+<p><strong>Case Study:</strong> <code>simulate()</code> feature We’ll follow the addition of a major <code>v0.3.0</code> feature, tracking its progress our team’s workflow.</p>
+</blockquote>
+</section>
+<section id="open-communication-during-design" class="slide level2">
+<h2>1. Open Communication During Design</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>Features start with a discussion to make sure we’re aligned with the need and approach.</p>
+</div><div class="column" style="width:70%;">
+<p><img data-src="resources/dev-feature-request.png"></p>
+</div>
+</div>
+</section>
+<section id="live-discussion-at-bi-weekly-call" class="slide level2">
+<h2>2. Live Discussion at Bi-weekly Call</h2>
+<p>Bi-weekly calls allow an opportunity to discuss the details of an approach in more depth.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="live-chat">Live Chat</h3>
+<ul>
+<li>Great for initial planning,</li>
+<li>and aligning on final details</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="async-discussion-threads">Async Discussion Threads</h3>
+<ul>
+<li>Great for mocking up proposals</li>
+<li>Visual/code-based content like user-interface proposals</li>
+<li>Technical details</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="initial-implementation" class="slide level2">
+<h2>3. Initial Implementation</h2>
+<p>After deciding on the path forward, feature is often assigned out to an an individual and an initial pass is put forth through a PR.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>The initial work is put forth with confidence about <em>what</em> needs to be done, but perhaps not <em>how</em> it needs to be done</p>
+</div><div class="column" style="width:70%;">
+<p><img data-src="resources/dev-pr.png"></p>
+</div>
+</div>
+</section>
+<section id="review" class="slide level2">
+<h2>4. Review</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>Many small decisions recieve feedback until all concerns have been addressed.</p>
+</div><div class="column" style="width:70%;">
+<p><img data-src="resources/dev-review.png"></p>
+</div>
+</div>
+</section>
+<section id="merge" class="slide level2">
+<h2>5. Merge 🎉</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>When all concerns have been addressed, new code is introduced.</p>
+</div><div class="column" style="width:70%;">
+<p><img data-src="resources/dev-merge.png"></p>
+</div>
+</div>
+</section>
+<section id="workflow-recap" class="slide level2">
+<h2>Workflow Recap</h2>
+<ol type="1">
+<li>Discussion preceeds work on new features</li>
+<li>Alignment is emphasized at Bi-weekly calls before embarking on development</li>
+<li>Volunteer-based implmentation, depending on availability, expertise and interest</li>
+<li>Calls allow for intermitent feedback throughout - especially important for larger features</li>
+<li>PR submitted, with appropiately intensive review</li>
+<li>When concerns are addressed, feature is incorporated</li>
+</ol>
 
 <div class="footer footer-default">
 <p>From the statistical method to the R package - the <code>mmrm</code> example | <a href="http://creativecommons.org/licenses/by-sa/4.0/" title="License: CC BY-SA 4.0">License</a></p>
