@@ -19,6 +19,10 @@ format:
 * Short hands-on introduction to the `mmrm` package
   * Working together across companies and in open source
 
+### Slides Available at 
+
+[tinyurl.com/mmrm-workshop-slides](https://dgkf.github.io/rpharma-2023-mmrm-workshop/)
+
 ::: {.notes}
 Daniel
 :::  
@@ -658,3 +662,31 @@ Doug
 ::: {.notes}
 Daniel
 :::  
+
+## Special Thanks to All of `{mmrm}`'s Contributors
+
+::: columns
+::: {.column width="50%"}
+* Daniel Sabanes Bove (Roche)
+* Julia Dedic (Roche)
+* Doug Kelkhoff (Roche)
+* Kevin Kunzmann (Boehringer Ingelheim)
+* Brian Matthew Lang (Merck)
+* Liming Li (Roche)
+:::
+
+::: {.column width="50%"}
+* Christian Stock (Boehringer Ingelheim)
+* Ya Wang (Gilead)
+* Craig Gower-Page (Roche)
+* Dan James (Astrazeneca)
+* Jonathan Sidi (pinpointstrategies)
+* Daniel Leibovitz (Roche)
+* Daniel D. Sjoberg (Roche)
+:::
+:::
+
+::: {.notes}
+Daniel
+:::  
+
