@@ -18,14 +18,26 @@ format:
   * Illustrate throughout with the `mmrm` package development example
 * Short hands-on introduction to the `mmrm` package
   * Working together across companies and in open source
-  
+
+::: {.notes}
+Daniel
+:::  
+
 # Key considerations for writing statistical R packages
+
+::: {.notes}
+Daniel
+:::  
 
 ## Why does this matter in Pharma?
 
 "*The credibility* of the numerical results of the analysis *depends on the quality and validity of the methods and software* (both internally and externally written) used both for data management [...] and also *for processing the data statistically*. [...] The *computer software* used for data management and statistical analysis *should be reliable*, and documentation of *appropriate software testing* procedures should be available."
 
 [ICH Topic E 9: Statistical Principles for Clinical Trials, Section 5.8: Integrity of Data and Computer Software Validity]
+
+::: {.notes}
+Daniel
+:::  
 
 ## How can we achive this?
 
@@ -41,6 +53,10 @@ to ensure
 
 and ultimately credibility of the statistical analysis results? 
 
+::: {.notes}
+Doug
+:::  
+
 ## Take away lessons for writing statistical software
 
 1. Choose the right methods and understand them.
@@ -48,7 +64,15 @@ and ultimately credibility of the statistical analysis results?
 1. Spend enough time on planning the design of the R package.
 1. Assume that your R package will be evolving for a long time.
 
+::: {.notes}
+Doug
+:::  
+
 # Choose the right methods and understand them
+
+::: {.notes}
+Doug
+:::  
 
 ## Why is this important?
 
@@ -56,6 +80,10 @@ and ultimately credibility of the statistical analysis results?
 
 * If we don't choose the right method, then the best software implementation of it won't help the credibility of the statistical analysis!
 * Work together with methods experts (internal, external, ...)
+
+::: {.notes}
+Doug
+:::  
 
 ## How can we understand the statistical method?
 
@@ -67,6 +95,10 @@ We need to understand the method before implementing it!
 - Paraphrase and ask lots of clarifying questions
 - Understand the details by reading the original paper describing the method
 
+::: {.notes}
+Doug
+:::  
+
 ## Example: `mmrm`
 
 - Understand the acronym: Mixed Model with Repeated Measures 
@@ -75,6 +107,10 @@ We need to understand the method before implementing it!
 - Understand the problem: In R we did not get the correct adjusted degrees of freedom
   - Try out existing R packages and compare results with proprietary software
   - Read paper describing the adjusted degrees of freedom
+
+::: {.notes}
+Daniel
+:::  
   
 ## Example: `mmrm` (fast forward)
 
@@ -83,7 +119,15 @@ We need to understand the method before implementing it!
 - Does not converge and takes hours on large data sets with many time points
 - Therefore needed to look for another solution
 
+::: {.notes}
+Daniel
+:::  
+
 # Solve the core implementation problem with prototype code
+
+::: {.notes}
+Doug
+:::  
 
 ## What is prototype code?
 
@@ -94,6 +138,10 @@ We need to understand the method before implementing it!
 - It works usually quite well to have an `Rmd` or `qmd` document to combine thoughts and code
 - Typically an R script from a methods expert that implements the method can be the start for a prototype
 
+::: {.notes}
+Doug
+:::  
+
 ## When have you solved the core implementation problem?
 
 - You have R code that allows you to (half-manually) calculate the results with the chosen methods
@@ -103,6 +151,10 @@ We need to understand the method before implementing it!
 - (If possible) You have compared the numerical results from your R code with other software,
   and they match up to numerical accuracy (e.g. relative difference of 0.001)
 
+::: {.notes}
+Doug
+:::  
+
 ## Example: `mmrm` - try to use existing packages
 
 - The hardest part: adjusted degrees of freedom calculation
@@ -111,6 +163,10 @@ We need to understand the method before implementing it!
   - using package `lme4` with `lmerTest` (fails on large data sets with many time points)
   - using package `glmmTMB` (does not have adjusted degrees of freedom)ß
 
+::: {.notes}
+Daniel
+:::  
+
 ## Example: `mmrm` - try to extend existing package
 
 Tried to extend `glmmTMB` to calculate Satterthwaite adjusted degrees of freedom:
@@ -118,6 +174,10 @@ Tried to extend `glmmTMB` to calculate Satterthwaite adjusted degrees of freedom
 - Got in touch with `glmmTMB` authors and Ben Bolker provided great help and assistance
 - Unfortunately it did not work out (results were very far off for unstructed covariance)
 - Understand that `glmmTMB` always uses a random effects model representation which is not what we want
+
+::: {.notes}
+Daniel
+:::  
 
 ## Example: `mmrm` - try to make a custom implementation
 
@@ -129,7 +189,15 @@ Idea was then to use the Template Model Builder (`TMB`) library directly:
 - The gradient (and Hessian) can then be used from the R side to find the (restricted) maximum likelihood estimates
 - Within a long weekend, got a working prototype that was fast and matched proprietary software results nicely
 
+::: {.notes}
+Daniel
+:::  
+
 # Spend enough time on planning the design of the R-package
+
+::: {.notes}
+Doug
+:::
 
 ## Why not jump into writing functions right away?
 
@@ -138,6 +206,10 @@ Idea was then to use the Template Model Builder (`TMB`) library directly:
   - Important to discuss "big picture" plan with experts and users regarding workflow
 - When writing a function you should do it together with documentation and unit tests
   - If you just start somewhere, chances are very high that you will need to change it later
+
+::: {.notes}
+Doug
+:::
 
 ## How to plan the design of the R-package?
 
@@ -149,6 +221,10 @@ Idea was then to use the Template Model Builder (`TMB`) library directly:
 1. Break down design into separate issues (tasks) to implement
    - Make notes of dependencies and resulting order of implementation
   
+::: {.notes}
+Doug
+:::
+
 ## Example: `mmrm`
 
 - Have a single `Rmd` as initial design document including prototypes
@@ -161,13 +237,25 @@ Idea was then to use the Template Model Builder (`TMB`) library directly:
 cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 ```
 
+::: {.notes}
+Daniel
+:::
+
 ## Example: `mmrm` (cont'd)
 
 - Have separate issues and corresponding pull requests implementing functions
 
 ![](resources/issues.png)
 
+::: {.notes}
+Daniel
+:::
+
 # Assume your R-package is evolving for a long time
+
+::: {.notes}
+Doug
+:::
 
 ## Why should we document the methods?
 
@@ -177,6 +265,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - specific details on the algorithm
 - Users benefit from this method documentation a lot because they can understand what is going on in your package
 - Developers will depend on the method documentation when adding new method features and to understand the code
+
+::: {.notes}
+Doug
+:::
 
 ## Why do we need tests?
 
@@ -188,6 +280,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - ... but you can only do that comfortably if you know that the package still works afterwards
   - If the tests pass you know it still works!
 
+::: {.notes}
+Doug
+:::
+
 ## How can I make the package extensible?
 
 - "Extensible" = others can extend it without changing package code
@@ -196,6 +292,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - Prefer object oriented package designs because it will help a lot the extensibility 
 - Generally avoid functions with many arguments or longer than 50 lines of code
 
+::: {.notes}
+Doug
+:::
+
 ## Example: `mmrm` - method documentation
 
 - Started with handwritten notes of the algorithm implementation for the prototype
@@ -203,7 +303,15 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - Has been updated many times already when algorithm was updated
 - Meanwhile have in total 12 different vignettes on different aspects
 
+::: {.notes}
+Daniel
+:::
+
 ## {background-iframe="https://openpharma.github.io/mmrm/latest-tag/articles/algorithm.html" background-interactive="true"}
+
+::: {.notes}
+Daniel
+:::
 
 ## Example: `mmrm` - tests
 
@@ -212,12 +320,24 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - Some tests can take longer, if run time becomes an issue can skip them on CRAN
 - Turned out tests were super important because minor `C++` changes could break results on different operating system
 
+::: {.notes}
+Daniel
+:::
+
 ## Example: `mmrm` - extensibility
 
 - This is a typical "model fitting" package and therefore we use the S3 class system
   - Over time can add interfaces to other modeling packages (more later)
+
+::: {.notes}
+Daniel
+:::
   
 # Introduction to the `mmrm` package
+
+::: {.notes}
+Daniel
+:::
 
 ## Installation
 
@@ -227,6 +347,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - But needs `C++` toolchain and can take quite a while to compile
 - R-Universe: [https://openpharma.r-universe.dev/mmrm](https://openpharma.r-universe.dev/mmrm) and download the binary package and install afterwards
   - Somehow the `install.packages()` path from R does not find the binaries
+
+::: {.notes}
+Daniel
+:::
 
 ## Features of `mmrm` (>= 0.3)
 
@@ -238,6 +362,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - Robust sandwich estimator for covariance
 - Degrees of freedom adjustments: 
   Satterthwaite, Kenward-Roger, Kenward-Roger-Linear, Between-Within, Residual
+
+::: {.notes}
+Daniel
+:::
 
 ## Ecosystem integration
 
@@ -251,6 +379,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - Provided by third party packages (remember the extensibility discussion):
   - interfaces to `insight`, `parameters`
 
+::: {.notes}
+Doug
+:::
+
 ## Unit and integration testing
 
 - Unit tests can be found in the GitHub repository under [./tests](https://github.com/openpharma/mmrm/tree/main/tests/testthat).
@@ -260,6 +392,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 - The integration tests in `mmrm` are set to a standard tolerance of $10^{-3}$ when compared to other software outputs
   - Comparison with SAS results (`PROC MIXED`)
   - Comparison with relevant R packages
+
+::: {.notes}
+Doug
+:::
 
 ## Benchmarking with other R packages
 
@@ -271,6 +407,10 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - `mmrm` and `gls` are more resilient to missingness
 - Detailed results at the online [comparison vignette](https://openpharma.github.io/mmrm/main/articles/mmrm_review_methods.html)
 
+::: {.notes}
+Doug
+:::
+
 ## Impact of `mmrm`
 
 - CRAN downloads: around 100 per day in Oct 2023
@@ -280,6 +420,11 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - [https://github.com/openpharma/mmrm](https://github.com/openpharma/mmrm) 
 - Part of CRAN clinical trials task view
 
+
+::: {.notes}
+Doug
+:::
+
 ## Outlook
 
 - `mmrm` is now relatively complete for mostly needed features
@@ -288,13 +433,22 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
   - Evaluate adding (simple) random effects
 - Please let us know what is missing in `mmrm` for you!
 
+::: {.notes}
+Daniel
+:::
+
 # Hands-On Demo Time!
+
+::: {.notes}
+Daniel
+:::
 
 ## Demo Instructions
 
 ::: columns
 ::: {.column width="50%"}
-* Head to [posit.cloud]()
+
+* Head to [tinyurl.com/mmrm-workshop](https://posit.cloud/spaces/427068/join?access_code=XnvesemS6v4KITLQozaUswUggQzN_Kj6-tKPU0nP)
 * Open the "`{mmrm}` Workbench" Space
 * Open the `mmrm-introduction.Rmd`
 :::
@@ -304,7 +458,15 @@ cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 :::
 :::
 
+::: {.notes}
+Daniel
+:::
+
 # Open source development across companies
+
+::: {.notes}
+Daniel
+:::  
 
 ## Introducing `openstatsware`
 
@@ -323,6 +485,10 @@ Founded last year:
 :::
 :::
 
+::: {.notes}
+Daniel
+:::  
+
 ## `mmrm` was our first workstream
 
 - Why is the MMRM topic important?
@@ -330,6 +496,10 @@ Founded last year:
   - Also used as backbone for more recent methods such as multiple imputation
 - See also our second workstream that produced [`brms.mmrm`](https://openpharma.github.io/brms.mmrm/)
   - Bayesian inference in MMRM, based on `brms` (as Stan frontend for HMC sampling)
+
+::: {.notes}
+Daniel
+:::  
 
 ## Human success factors
 
@@ -340,6 +510,10 @@ Founded last year:
   - "Reciprocity means that in response to friendly actions, people are frequently much nicer and much more cooperative than predicted by the self-interest model"
   - Personal experience: If you first give away something, more will come back to you.
 
+::: {.notes}
+Daniel
+:::  
+
 ## Be inclusive in the development
 
 - Important to go public as soon as possible 
@@ -349,6 +523,10 @@ Founded last year:
   - Different perspectives in discussions and code review help to optimize the user interface and thus experience
   - Be generous with authorship
 
+::: {.notes}
+Daniel
+:::  
+
 ## Practical daily development process
 
 Let's take a look at what it looks like in action. 
@@ -356,6 +534,10 @@ Let's take a look at what it looks like in action.
 > **Case Study:** `simulate()` feature
 > We'll follow the addition of a major `v0.3.0` feature, tracking its progress 
 > our team's workflow.
+
+::: {.notes}
+Doug
+:::  
 
 ## 1. Open Communication During Design
 
@@ -369,6 +551,10 @@ approach.
 ![](resources/dev-feature-request.png)
 :::
 :::
+
+::: {.notes}
+Doug
+:::  
 
 ## 2. Live Discussion at Bi-weekly Call
 
@@ -392,6 +578,10 @@ in more depth.
 :::
 :::
 
+::: {.notes}
+Doug
+:::  
+
 ## 3. Initial Implementation
 
 After deciding on the path forward, feature is often assigned out to an
@@ -408,6 +598,10 @@ perhaps not _how_ it needs to be done
 :::
 :::
 
+::: {.notes}
+Doug
+:::  
+
 ## 4. Review
 
 ::: columns
@@ -419,6 +613,10 @@ Many small decisions recieve feedback until all concerns have been addressed.
 ![](resources/dev-review.png)
 :::
 :::
+
+::: {.notes}
+Doug
+:::  
 
 ## 5. Merge 🎉
 
@@ -432,6 +630,10 @@ When all concerns have been addressed, new code is introduced.
 :::
 :::
 
+::: {.notes}
+Doug
+:::  
+
 ## Workflow Recap
 
 1. Discussion preceeds work on new features
@@ -441,4 +643,18 @@ When all concerns have been addressed, new code is introduced.
 1. PR submitted, with appropiately intensive review
 1. When concerns are addressed, feature is incorporated
 
+::: {.notes}
+Doug
+:::  
 
+## What we covered today
+
+- [x] Show practical steps for obtaining an R package implementation of a statistical method
+  - [x] Discuss key considerations for writing statistical software
+  - [x] Illustrate throughout with the `mmrm` package development example
+- [x] Short hands-on introduction to the `mmrm` package
+  - [x] Working together across companies and in open source
+
+::: {.notes}
+Daniel
+:::  
