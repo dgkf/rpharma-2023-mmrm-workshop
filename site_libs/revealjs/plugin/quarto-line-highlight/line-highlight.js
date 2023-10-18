@@ -165,9 +165,9 @@ window.QuartoLineHighlight = function () {
         if (typeof highlight.last === "number") {
           spanToHighlight = [].slice.call(
             codeBlock.querySelectorAll(
-              ":scope > span:nth-of-type(n+" +
+              ":scope > span:nth-child(n+" +
                 highlight.first +
-                "):nth-of-type(-n+" +
+                "):nth-child(-n+" +
                 highlight.last +
                 ")"
             )
@@ -175,7 +175,7 @@ window.QuartoLineHighlight = function () {
         } else if (typeof highlight.first === "number") {
           spanToHighlight = [].slice.call(
             codeBlock.querySelectorAll(
-              ":scope > span:nth-of-type(" + highlight.first + ")"
+              ":scope > span:nth-child(" + highlight.first + ")"
             )
           );
         }

@@ -1,1 +1,1 @@
-Sitemap: https://dgkf.github.io/rpharma-2023-mmrm-workshop/sitemap.xml
+Sitemap: https://github.com/dgkf/rpharma-2023-mmrm-workshop/sitemap.xml

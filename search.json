@@ -158,6 +158,97 @@
     "href": "index.html#example-mmrm---extensibility",
     "title": "From the statistical method to the R package - the mmrm example",
     "section": "Example: mmrm - extensibility",
-    "text": "Example: mmrm - extensibility\n\nThis is a typical “model fitting” package and therefore we use the S3 class system\n\nOver time can add interfaces to other modeling packages (more later)\n\n\n\n\nFrom the statistical method to the R package - the mmrm example | License"
+    "text": "Example: mmrm - extensibility\n\nThis is a typical “model fitting” package and therefore we use the S3 class system\n\nOver time can add interfaces to other modeling packages (more later)"
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Installation",
+    "text": "Installation\n\nCRAN as usual: install.packages(\"mmrm\")\n\nLags a bit behind at the moment (due to CRAN manual review bottleneck)\n\nGitHub as usual: remotes::install_github(\"openpharma/mmrm\")\n\nBut needs C++ toolchain and can take quite a while to compile\n\nR-Universe: https://openpharma.r-universe.dev/mmrm and download the binary package and install afterwards\n\nSomehow the install.packages() path from R does not find the binaries"
+  },
+  {
+    "objectID": "index.html#features-of-mmrm-0.3",
+    "href": "index.html#features-of-mmrm-0.3",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Features of mmrm (>= 0.3)",
+    "text": "Features of mmrm (&gt;= 0.3)\n\nLinear model for dependent observations within independent subjects\nCovariance structures for the dependent observations:\n\nUnstructured, Toeplitz, AR1, compound symmetry, ante-dependence, spatial exponential\nAllows group specific covariance estimates and weights\n\nREML or ML estimation, using multiple optimizers if needed\nRobust sandwich estimator for covariance\nDegrees of freedom adjustments: Satterthwaite, Kenward-Roger, Kenward-Roger-Linear, Between-Within, Residual"
+  },
+  {
+    "objectID": "index.html#ecosystem-integration",
+    "href": "index.html#ecosystem-integration",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Ecosystem integration",
+    "text": "Ecosystem integration\n\nemmeans interface for least square means\ntidymodels for easy model fitting:\n\nDedicated parsnip engine for linear regression\nIntegration with recipes\n\nNEST family for clinical trial reporting:\n\ntern.mmrm to easily generate common tables and plot (coming to CRAN soon)\nteal.modules.clinical to easily spin up Shiny app based on the teal framework (coming to CRAN soon)\n\nProvided by third party packages (remember the extensibility discussion):\n\ninterfaces to insight, parameters"
+  },
+  {
+    "objectID": "index.html#unit-and-integration-testing",
+    "href": "index.html#unit-and-integration-testing",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Unit and integration testing",
+    "text": "Unit and integration testing\n\nUnit tests can be found in the GitHub repository under ./tests.\nUses the testthat framework with covr to communicate the testing coverage.\n\nCoverage above 95%\nAlso include tests for key C++ functions\n\nThe integration tests in mmrm are set to a standard tolerance of \\(10^{-3}\\) when compared to other software outputs\n\nComparison with SAS results (PROC MIXED)\nComparison with relevant R packages"
+  },
+  {
+    "objectID": "index.html#benchmarking-with-other-r-packages",
+    "href": "index.html#benchmarking-with-other-r-packages",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Benchmarking with other R packages",
+    "text": "Benchmarking with other R packages\n\nCompared mmrm::mmrm with nlme::gls, lme4::lmer, glmmTMB::glmmTMB\nHighlights:\n\nmmrm has faster convergence time\n\nUsing FEV dataset as an example, mmrm took ~50 ms, while lmer ~200 ms, gls and glmmTMB &gt;600 ms\n\nmmrm and gls estimates have smaller differences from SAS PROC GLIMMIX estimates\nmmrm and gls are more resilient to missingness\n\nDetailed results at the online comparison vignette"
+  },
+  {
+    "objectID": "index.html#impact-of-mmrm",
+    "href": "index.html#impact-of-mmrm",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Impact of mmrm",
+    "text": "Impact of mmrm\n\nCRAN downloads: around 100 per day in Oct 2023\n\nhttps://cran.r-project.org/web/packages/mmrm/\nnew CRAN release v0.3 coming any day now!\n\nGitHub repository: 73 stars as of 17 Oct 2023\n\nhttps://github.com/openpharma/mmrm\n\nPart of CRAN clinical trials task view"
+  },
+  {
+    "objectID": "index.html#outlook",
+    "href": "index.html#outlook",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Outlook",
+    "text": "Outlook\n\nmmrm is now relatively complete for mostly needed features\nWe still have a few major ideas on our backlog:\n\nType II and Type III ANOVA tests\nEvaluate adding (simple) random effects\n\nPlease let us know what is missing in mmrm for you!"
+  },
+  {
+    "objectID": "index.html#demo-instructions",
+    "href": "index.html#demo-instructions",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Demo Instructions",
+    "text": "Demo Instructions\nDoug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?"
+  },
+  {
+    "objectID": "index.html#introducing-openstatsware",
+    "href": "index.html#introducing-openstatsware",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Introducing openstatsware",
+    "text": "Introducing openstatsware\n\n\nFounded last year:\n\nWhen: 19 August 2022 - just celebrated our 1 year birthday!\nWhere: American Statistical Association (ASA) Biopharmaceutical Section (BIOP)\nInitially: 11 statisticians from 7 pharma companies developing statistical software\nNew name: openstatsware"
+  },
+  {
+    "objectID": "index.html#mmrm-was-our-first-workstream",
+    "href": "index.html#mmrm-was-our-first-workstream",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "mmrm was our first workstream",
+    "text": "mmrm was our first workstream\n\nWhy is the MMRM topic important?\n\nMMRM is a popular analysis method for longitudinal continuous outcomes in randomized clinical trials\nAlso used as backbone for more recent methods such as multiple imputation\n\nSee also our second workstream that produced brms.mmrm\n\nBayesian inference in MMRM, based on brms (as Stan frontend for HMC sampling)"
+  },
+  {
+    "objectID": "index.html#human-success-factors",
+    "href": "index.html#human-success-factors",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Human success factors",
+    "text": "Human success factors\n\nMutual interest and mutual trust\nPrerequisite is getting to know each other\n\nAlthough mostly just online, biweekly calls help a lot with this\n\nReciprocity mindset\n\n“Reciprocity means that in response to friendly actions, people are frequently much nicer and much more cooperative than predicted by the self-interest model”\nPersonal experience: If you first give away something, more will come back to you."
+  },
+  {
+    "objectID": "index.html#be-inclusive-in-the-development",
+    "href": "index.html#be-inclusive-in-the-development",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Be inclusive in the development",
+    "text": "Be inclusive in the development\n\nImportant to go public as soon as possible\n\nWe did not wait for mmrm to be finished before initial open sourcing\nMany developers contributed over time\n\nBuilding software together works better than alone\n\nDifferent perspectives in discussions and code review help to optimize the user interface and thus experience\nBe generous with authorship"
+  },
+  {
+    "objectID": "index.html#practical-daily-development-process",
+    "href": "index.html#practical-daily-development-process",
+    "title": "From the statistical method to the R package - the mmrm example",
+    "section": "Practical daily development process",
+    "text": "Practical daily development process\nDoug would you like to add here a few slides?\n\n\nFrom the statistical method to the R package - the mmrm example | License"
   }
 ]

@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-99.9.9">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Daniel Sabanés Bové, Doug Kelkhoff (Roche)">
   <meta name="dcterms.date" content="2023-10-19">
@@ -32,7 +32,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -222,8 +222,7 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -421,6 +420,11 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 </ul></li>
 </ul>
 </section>
+<section>
+<section id="key-considerations-for-writing-statistical-r-packages" class="title-slide slide level1 center">
+<h1>Key considerations for writing statistical R packages</h1>
+
+</section>
 <section id="why-does-this-matter-in-pharma" class="slide level2">
 <h2>Why does this matter in Pharma?</h2>
 <p>“<em>The credibility</em> of the numerical results of the analysis <em>depends on the quality and validity of the methods and software</em> (both internally and externally written) used both for data management […] and also <em>for processing the data statistically</em>. […] The <em>computer software</em> used for data management and statistical analysis <em>should be reliable</em>, and documentation of <em>appropriate software testing</em> procedures should be available.”</p>
@@ -448,7 +452,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <li>Spend enough time on planning the design of the R package.</li>
 <li>Assume that your R package will be evolving for a long time.</li>
 </ol>
-</section>
+</section></section>
 <section>
 <section id="choose-the-right-methods-and-understand-them" class="title-slide slide level1 center">
 <h1>Choose the right methods and understand them</h1>
@@ -997,7 +1001,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-394"><a href="#cb1-394"></a>  control <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(</span>
 <span id="cb1-395"><a href="#cb1-395"></a>    <span class="at">optimizer =</span> stats<span class="sc">::</span>optim,</span>
 <span id="cb1-396"><a href="#cb1-396"></a>    <span class="at">optArgs =</span> <span class="fu">list</span>(<span class="at">method =</span> optimizer),</span>
-<span id="cb1-397"><a href="#cb1-397"></a>    <span class="at">parallel =</span> <span class="dv">1</span>L</span>
+<span id="cb1-397"><a href="#cb1-397"></a>    <span class="at">parallel =</span> 1L</span>
 <span id="cb1-398"><a href="#cb1-398"></a>  )</span>
 <span id="cb1-399"><a href="#cb1-399"></a>  quiet_fit <span class="ot">&lt;-</span> <span class="fu">h_record_all_output</span>(</span>
 <span id="cb1-400"><a href="#cb1-400"></a>    glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(</span>
@@ -1015,8 +1019,8 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-412"><a href="#cb1-412"></a>      )</span>
 <span id="cb1-413"><a href="#cb1-413"></a>    )</span>
 <span id="cb1-414"><a href="#cb1-414"></a>  )</span>
-<span id="cb1-415"><a href="#cb1-415"></a>  converged <span class="ot">&lt;-</span> (<span class="fu">length</span>(quiet_fit<span class="sc">$</span>warnings) <span class="sc">==</span> <span class="dv">0</span>L) <span class="sc">&amp;&amp;</span></span>
-<span id="cb1-416"><a href="#cb1-416"></a>    (<span class="fu">length</span>(quiet_fit<span class="sc">$</span>errors) <span class="sc">==</span> <span class="dv">0</span>L) <span class="sc">&amp;&amp;</span></span>
+<span id="cb1-415"><a href="#cb1-415"></a>  converged <span class="ot">&lt;-</span> (<span class="fu">length</span>(quiet_fit<span class="sc">$</span>warnings) <span class="sc">==</span> 0L) <span class="sc">&amp;&amp;</span></span>
+<span id="cb1-416"><a href="#cb1-416"></a>    (<span class="fu">length</span>(quiet_fit<span class="sc">$</span>errors) <span class="sc">==</span> 0L) <span class="sc">&amp;&amp;</span></span>
 <span id="cb1-417"><a href="#cb1-417"></a>    (quiet_fit<span class="sc">$</span>result<span class="sc">$</span>fit<span class="sc">$</span>convergence <span class="sc">==</span> <span class="dv">0</span>)</span>
 <span id="cb1-418"><a href="#cb1-418"></a>  <span class="fu">structure</span>(</span>
 <span id="cb1-419"><a href="#cb1-419"></a>    quiet_fit<span class="sc">$</span>result,</span>
@@ -1052,7 +1056,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-449"><a href="#cb1-449"></a></span>
 <span id="cb1-450"><a href="#cb1-450"></a>  warnings <span class="ot">&lt;-</span> <span class="fu">lapply</span>(all_fits, attr, <span class="at">which =</span> <span class="st">"warnings"</span>)</span>
 <span id="cb1-451"><a href="#cb1-451"></a>  messages <span class="ot">&lt;-</span> <span class="fu">lapply</span>(all_fits, attr, <span class="at">which =</span> <span class="st">"messages"</span>)</span>
-<span id="cb1-452"><a href="#cb1-452"></a>  log_liks <span class="ot">&lt;-</span> <span class="fu">vapply</span>(all_fits, stats<span class="sc">::</span>logLik, <span class="fu">numeric</span>(<span class="dv">1</span>L))</span>
+<span id="cb1-452"><a href="#cb1-452"></a>  log_liks <span class="ot">&lt;-</span> <span class="fu">vapply</span>(all_fits, stats<span class="sc">::</span>logLik, <span class="fu">numeric</span>(1L))</span>
 <span id="cb1-453"><a href="#cb1-453"></a>  converged <span class="ot">&lt;-</span> <span class="fu">vapply</span>(all_fits, attr, <span class="fu">logical</span>(<span class="dv">1</span>), <span class="at">which =</span> <span class="st">"converged"</span>)</span>
 <span id="cb1-454"><a href="#cb1-454"></a></span>
 <span id="cb1-455"><a href="#cb1-455"></a>  <span class="fu">list</span>(</span>
@@ -1094,7 +1098,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-491"><a href="#cb1-491"></a>      load_percent_string <span class="ot">&lt;-</span> <span class="fu">system</span>(<span class="st">"wmic cpu get loadpercentage"</span>, <span class="at">intern =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-492"><a href="#cb1-492"></a>      <span class="co"># This gives e.g.: c("LoadPercentage", "10", "")</span></span>
 <span id="cb1-493"><a href="#cb1-493"></a>      <span class="co"># So we just take the number here.</span></span>
-<span id="cb1-494"><a href="#cb1-494"></a>      load_percent <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">min</span>(load_percent_string[<span class="dv">2</span>L], <span class="dv">100</span>))</span>
+<span id="cb1-494"><a href="#cb1-494"></a>      load_percent <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">min</span>(load_percent_string[2L], <span class="dv">100</span>))</span>
 <span id="cb1-495"><a href="#cb1-495"></a>      <span class="fu">assert_int</span>(load_percent, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">100</span>)</span>
 <span id="cb1-496"><a href="#cb1-496"></a>      <span class="fu">ceiling</span>(all_cores <span class="sc">*</span> load_percent <span class="sc">/</span> <span class="dv">100</span>)</span>
 <span id="cb1-497"><a href="#cb1-497"></a>    } <span class="cf">else</span> <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"unix"</span>) {</span>
@@ -1124,10 +1128,10 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-521"><a href="#cb1-521"></a></span>
 <span id="cb1-522"><a href="#cb1-522"></a><span class="st">```</span>{r}</span>
 <span id="cb1-523"><a href="#cb1-523"></a>refit_multiple_optimizers <span class="ot">&lt;-</span> <span class="cf">function</span>(fit,</span>
-<span id="cb1-524"><a href="#cb1-524"></a>                                      <span class="at">n_cores =</span> <span class="dv">1</span>L,</span>
+<span id="cb1-524"><a href="#cb1-524"></a>                                      <span class="at">n_cores =</span> 1L,</span>
 <span id="cb1-525"><a href="#cb1-525"></a>                                      <span class="at">optimizers =</span> <span class="fu">c</span>(<span class="st">"L-BFGS-B"</span>, <span class="st">"Nelder-Mead"</span>, <span class="st">"BFGS"</span>, <span class="st">"CG"</span>)) {</span>
 <span id="cb1-526"><a href="#cb1-526"></a>  <span class="fu">assert_class</span>(fit, <span class="st">"mmrm_fit"</span>)</span>
-<span id="cb1-527"><a href="#cb1-527"></a>  <span class="fu">assert_int</span>(n_cores, <span class="at">lower =</span> <span class="dv">1</span>L)</span>
+<span id="cb1-527"><a href="#cb1-527"></a>  <span class="fu">assert_int</span>(n_cores, <span class="at">lower =</span> 1L)</span>
 <span id="cb1-528"><a href="#cb1-528"></a>  optimizers <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(optimizers, <span class="at">several.ok =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-529"><a href="#cb1-529"></a></span>
 <span id="cb1-530"><a href="#cb1-530"></a>  <span class="co"># Extract the components of the original fit.</span></span>
@@ -1139,7 +1143,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-536"><a href="#cb1-536"></a>  optimizers <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(optimizers, old_optimizer)</span>
 <span id="cb1-537"><a href="#cb1-537"></a>  n_cores_used <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
 <span id="cb1-538"><a href="#cb1-538"></a>    .Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">"windows"</span>,</span>
-<span id="cb1-539"><a href="#cb1-539"></a>    <span class="dv">1</span>L,</span>
+<span id="cb1-539"><a href="#cb1-539"></a>    1L,</span>
 <span id="cb1-540"><a href="#cb1-540"></a>    <span class="fu">min</span>(</span>
 <span id="cb1-541"><a href="#cb1-541"></a>      <span class="fu">length</span>(optimizers),</span>
 <span id="cb1-542"><a href="#cb1-542"></a>      n_cores</span>
@@ -1203,7 +1207,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-600"><a href="#cb1-600"></a>fit_model <span class="ot">&lt;-</span> <span class="cf">function</span>(formula,</span>
 <span id="cb1-601"><a href="#cb1-601"></a>                      data,</span>
 <span id="cb1-602"><a href="#cb1-602"></a>                      <span class="at">optimizer =</span> <span class="st">"automatic"</span>,</span>
-<span id="cb1-603"><a href="#cb1-603"></a>                      <span class="at">n_cores =</span> <span class="dv">1</span>L) {</span>
+<span id="cb1-603"><a href="#cb1-603"></a>                      <span class="at">n_cores =</span> 1L) {</span>
 <span id="cb1-604"><a href="#cb1-604"></a>  <span class="fu">assert_string</span>(optimizer)</span>
 <span id="cb1-605"><a href="#cb1-605"></a>  use_automatic <span class="ot">&lt;-</span> <span class="fu">identical</span>(optimizer, <span class="st">"automatic"</span>)</span>
 <span id="cb1-606"><a href="#cb1-606"></a></span>
@@ -1382,8 +1386,8 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-779"><a href="#cb1-779"></a>h_general_jac_list <span class="ot">&lt;-</span> <span class="cf">function</span>(covbeta_fun,</span>
 <span id="cb1-780"><a href="#cb1-780"></a>                               x_opt,</span>
 <span id="cb1-781"><a href="#cb1-781"></a>                               ...) {</span>
-<span id="cb1-782"><a href="#cb1-782"></a>  <span class="fu">assert_function</span>(covbeta_fun, <span class="at">nargs =</span> <span class="dv">1</span>L)</span>
-<span id="cb1-783"><a href="#cb1-783"></a>  <span class="fu">assert_numeric</span>(x_opt, <span class="at">any.missing =</span> <span class="cn">FALSE</span>, <span class="at">min.len =</span> <span class="dv">1</span>L)</span>
+<span id="cb1-782"><a href="#cb1-782"></a>  <span class="fu">assert_function</span>(covbeta_fun, <span class="at">nargs =</span> 1L)</span>
+<span id="cb1-783"><a href="#cb1-783"></a>  <span class="fu">assert_numeric</span>(x_opt, <span class="at">any.missing =</span> <span class="cn">FALSE</span>, <span class="at">min.len =</span> 1L)</span>
 <span id="cb1-784"><a href="#cb1-784"></a></span>
 <span id="cb1-785"><a href="#cb1-785"></a>  jac_matrix <span class="ot">&lt;-</span> numDeriv<span class="sc">::</span><span class="fu">jacobian</span>(</span>
 <span id="cb1-786"><a href="#cb1-786"></a>    <span class="at">func =</span> covbeta_fun,</span>
@@ -1456,7 +1460,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-853"><a href="#cb1-853"></a>    <span class="at">formula =</span> formula,</span>
 <span id="cb1-854"><a href="#cb1-854"></a>    <span class="at">data =</span> data,</span>
 <span id="cb1-855"><a href="#cb1-855"></a>    <span class="at">optimizer =</span> optimizer,</span>
-<span id="cb1-856"><a href="#cb1-856"></a>    <span class="at">n_cores =</span> <span class="fu">ifelse</span>(parallel, <span class="fu">h_free_cores</span>(), <span class="dv">1</span>L)</span>
+<span id="cb1-856"><a href="#cb1-856"></a>    <span class="at">n_cores =</span> <span class="fu">ifelse</span>(parallel, <span class="fu">h_free_cores</span>(), 1L)</span>
 <span id="cb1-857"><a href="#cb1-857"></a>  )</span>
 <span id="cb1-858"><a href="#cb1-858"></a>  vcov_theta <span class="ot">&lt;-</span> <span class="fu">h_num_vcov_theta</span>(model)</span>
 <span id="cb1-859"><a href="#cb1-859"></a>  jac_list <span class="ot">&lt;-</span> <span class="fu">h_jac_list</span>(model)</span>
@@ -1508,7 +1512,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-905"><a href="#cb1-905"></a>  n_fixed <span class="ot">&lt;-</span> <span class="fu">ncol</span>(<span class="fu">getME</span>(object<span class="sc">$</span>model, <span class="st">"X"</span>))</span>
 <span id="cb1-906"><a href="#cb1-906"></a>  m <span class="ot">&lt;-</span> <span class="fu">max</span>(df <span class="sc">+</span> <span class="dv">2</span>, n_obs <span class="sc">-</span> n_fixed)</span>
 <span id="cb1-907"><a href="#cb1-907"></a>  log_lik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stats<span class="sc">::</span><span class="fu">logLik</span>(object<span class="sc">$</span>model))</span>
-<span id="cb1-908"><a href="#cb1-908"></a>  n_subjects <span class="ot">&lt;-</span> <span class="fu">nlevels</span>(object<span class="sc">$</span>model<span class="sc">$</span>modelInfo<span class="sc">$</span>reTrms<span class="sc">$</span>cond<span class="sc">$</span>flist[[<span class="dv">1</span>L]])</span>
+<span id="cb1-908"><a href="#cb1-908"></a>  n_subjects <span class="ot">&lt;-</span> <span class="fu">nlevels</span>(object<span class="sc">$</span>model<span class="sc">$</span>modelInfo<span class="sc">$</span>reTrms<span class="sc">$</span>cond<span class="sc">$</span>flist[[1L]])</span>
 <span id="cb1-909"><a href="#cb1-909"></a></span>
 <span id="cb1-910"><a href="#cb1-910"></a>  <span class="fu">list</span>(</span>
 <span id="cb1-911"><a href="#cb1-911"></a>    <span class="st">"REML criterion"</span> <span class="ot">=</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> log_lik,</span>
@@ -1551,7 +1555,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-948"><a href="#cb1-948"></a>    jac_list,</span>
 <span id="cb1-949"><a href="#cb1-949"></a>    h_quad_form_vec, <span class="co"># = {L' Jac L}_i</span></span>
 <span id="cb1-950"><a href="#cb1-950"></a>    <span class="at">x =</span> L,</span>
-<span id="cb1-951"><a href="#cb1-951"></a>    <span class="fu">numeric</span>(<span class="dv">1</span>L)</span>
+<span id="cb1-951"><a href="#cb1-951"></a>    <span class="fu">numeric</span>(1L)</span>
 <span id="cb1-952"><a href="#cb1-952"></a>  )</span>
 <span id="cb1-953"><a href="#cb1-953"></a>}</span>
 <span id="cb1-954"><a href="#cb1-954"></a></span>
@@ -1756,7 +1760,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-1153"><a href="#cb1-1153"></a></span>
 <span id="cb1-1154"><a href="#cb1-1154"></a><span class="st">```</span>{r}</span>
 <span id="cb1-1155"><a href="#cb1-1155"></a>h_md_denom_df <span class="ot">&lt;-</span> <span class="cf">function</span>(t_stat_df) {</span>
-<span id="cb1-1156"><a href="#cb1-1156"></a>  <span class="fu">assert_numeric</span>(t_stat_df, <span class="at">min.len =</span> <span class="dv">1</span>L, <span class="at">lower =</span> .Machine<span class="sc">$</span>double.xmin, <span class="at">any.missing =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-1156"><a href="#cb1-1156"></a>  <span class="fu">assert_numeric</span>(t_stat_df, <span class="at">min.len =</span> 1L, <span class="at">lower =</span> .Machine<span class="sc">$</span>double.xmin, <span class="at">any.missing =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb1-1157"><a href="#cb1-1157"></a>  <span class="cf">if</span> (<span class="fu">test_scalar</span>(t_stat_df)) {</span>
 <span id="cb1-1158"><a href="#cb1-1158"></a>    <span class="fu">return</span>(t_stat_df)</span>
 <span id="cb1-1159"><a href="#cb1-1159"></a>  }</span>
@@ -1792,7 +1796,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-1189"><a href="#cb1-1189"></a>  <span class="fu">assert_matrix</span>(L, <span class="at">ncol =</span> <span class="fu">length</span>(object<span class="sc">$</span>beta_est))</span>
 <span id="cb1-1190"><a href="#cb1-1190"></a></span>
 <span id="cb1-1191"><a href="#cb1-1191"></a>  <span class="co"># Early return if we are in the one-dimensional case.</span></span>
-<span id="cb1-1192"><a href="#cb1-1192"></a>  <span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">nrow</span>(L), <span class="dv">1</span>L)) {</span>
+<span id="cb1-1192"><a href="#cb1-1192"></a>  <span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">nrow</span>(L), 1L)) {</span>
 <span id="cb1-1193"><a href="#cb1-1193"></a>    res_1d <span class="ot">&lt;-</span> <span class="fu">df_1d</span>(object, L)</span>
 <span id="cb1-1194"><a href="#cb1-1194"></a>    <span class="fu">return</span>(<span class="fu">h_df_md_list</span>(<span class="at">f_stat =</span> res_1d<span class="sc">$</span>t_stat<span class="sc">^</span><span class="dv">2</span>, <span class="at">num_df =</span> <span class="dv">1</span>, <span class="at">denom_df =</span> res_1d<span class="sc">$</span>df))</span>
 <span id="cb1-1195"><a href="#cb1-1195"></a>  }</span>
@@ -1810,7 +1814,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <span id="cb1-1207"><a href="#cb1-1207"></a>  vctrs_cont_prod <span class="ot">&lt;-</span> <span class="fu">crossprod</span>(eigen_cont_cov_vctrs, L)[rank_seq, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
 <span id="cb1-1208"><a href="#cb1-1208"></a></span>
 <span id="cb1-1209"><a href="#cb1-1209"></a>  <span class="co"># Early return if rank 1.</span></span>
-<span id="cb1-1210"><a href="#cb1-1210"></a>  <span class="cf">if</span> (<span class="fu">identical</span>(rank_cont_cov, <span class="dv">1</span>L)) {</span>
+<span id="cb1-1210"><a href="#cb1-1210"></a>  <span class="cf">if</span> (<span class="fu">identical</span>(rank_cont_cov, 1L)) {</span>
 <span id="cb1-1211"><a href="#cb1-1211"></a>    res_1d <span class="ot">&lt;-</span> <span class="fu">df_1d</span>(object, L)</span>
 <span id="cb1-1212"><a href="#cb1-1212"></a>    <span class="fu">return</span>(<span class="fu">h_df_md_list</span>(<span class="at">f_stat =</span> res_1d<span class="sc">$</span>t_stat<span class="sc">^</span><span class="dv">2</span>, <span class="at">num_df =</span> <span class="dv">1</span>, <span class="at">denom_df =</span> res_1d<span class="sc">$</span>df))</span>
 <span id="cb1-1213"><a href="#cb1-1213"></a>  }</span>
@@ -1997,6 +2001,199 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
 <li>Over time can add interfaces to other modeling packages (more later)</li>
 </ul></li>
 </ul>
+</section></section>
+<section>
+<section id="introduction-to-the-mmrm-package" class="title-slide slide level1 center">
+<h1>Introduction to the <code>mmrm</code> package</h1>
+
+</section>
+<section id="installation" class="slide level2">
+<h2>Installation</h2>
+<ul>
+<li>CRAN as usual: <code>install.packages("mmrm")</code>
+<ul>
+<li>Lags a bit behind at the moment (due to CRAN manual review bottleneck)</li>
+</ul></li>
+<li>GitHub as usual: <code>remotes::install_github("openpharma/mmrm")</code>
+<ul>
+<li>But needs <code>C++</code> toolchain and can take quite a while to compile</li>
+</ul></li>
+<li>R-Universe: <a href="https://openpharma.r-universe.dev/mmrm">https://openpharma.r-universe.dev/mmrm</a> and download the binary package and install afterwards
+<ul>
+<li>Somehow the <code>install.packages()</code> path from R does not find the binaries</li>
+</ul></li>
+</ul>
+</section>
+<section id="features-of-mmrm-0.3" class="slide level2">
+<h2>Features of <code>mmrm</code> (&gt;= 0.3)</h2>
+<ul>
+<li>Linear model for dependent observations within independent subjects</li>
+<li>Covariance structures for the dependent observations:
+<ul>
+<li>Unstructured, Toeplitz, AR1, compound symmetry, ante-dependence, spatial exponential</li>
+<li>Allows group specific covariance estimates and weights</li>
+</ul></li>
+<li>REML or ML estimation, using multiple optimizers if needed</li>
+<li>Robust sandwich estimator for covariance</li>
+<li>Degrees of freedom adjustments: Satterthwaite, Kenward-Roger, Kenward-Roger-Linear, Between-Within, Residual</li>
+</ul>
+</section>
+<section id="ecosystem-integration" class="slide level2">
+<h2>Ecosystem integration</h2>
+<ul>
+<li><code>emmeans</code> interface for least square means</li>
+<li><code>tidymodels</code> for easy model fitting:
+<ul>
+<li>Dedicated <code>parsnip</code> engine for linear regression</li>
+<li>Integration with <code>recipes</code></li>
+</ul></li>
+<li>NEST family for clinical trial reporting:
+<ul>
+<li><code>tern.mmrm</code> to easily generate common tables and plot (coming to CRAN soon)</li>
+<li><code>teal.modules.clinical</code> to easily spin up Shiny app based on the <code>teal</code> framework (coming to CRAN soon)</li>
+</ul></li>
+<li>Provided by third party packages (remember the extensibility discussion):
+<ul>
+<li>interfaces to <code>insight</code>, <code>parameters</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="unit-and-integration-testing" class="slide level2">
+<h2>Unit and integration testing</h2>
+<ul>
+<li>Unit tests can be found in the GitHub repository under <a href="https://github.com/openpharma/mmrm/tree/main/tests/testthat">./tests</a>.</li>
+<li>Uses the <code>testthat</code> framework with <code>covr</code> to communicate the testing coverage.
+<ul>
+<li>Coverage above 95%</li>
+<li>Also include tests for key <code>C++</code> functions</li>
+</ul></li>
+<li>The integration tests in <code>mmrm</code> are set to a standard tolerance of <span class="math inline">\(10^{-3}\)</span> when compared to other software outputs
+<ul>
+<li>Comparison with SAS results (<code>PROC MIXED</code>)</li>
+<li>Comparison with relevant R packages</li>
+</ul></li>
+</ul>
+</section>
+<section id="benchmarking-with-other-r-packages" class="slide level2">
+<h2>Benchmarking with other R packages</h2>
+<ul>
+<li>Compared <code>mmrm::mmrm</code> with <code>nlme::gls</code>, <code>lme4::lmer</code>, <code>glmmTMB::glmmTMB</code></li>
+<li>Highlights:
+<ul>
+<li><code>mmrm</code> has faster convergence time
+<ul>
+<li>Using <code>FEV</code> dataset as an example, <code>mmrm</code> took ~50 ms, while <code>lmer</code> ~200 ms, <code>gls</code> and <code>glmmTMB</code> &gt;600 ms</li>
+</ul></li>
+<li><code>mmrm</code> and <code>gls</code> estimates have smaller differences from SAS <code>PROC GLIMMIX</code> estimates</li>
+<li><code>mmrm</code> and <code>gls</code> are more resilient to missingness</li>
+</ul></li>
+<li>Detailed results at the online <a href="https://openpharma.github.io/mmrm/main/articles/mmrm_review_methods.html">comparison vignette</a></li>
+</ul>
+</section>
+<section id="impact-of-mmrm" class="slide level2">
+<h2>Impact of <code>mmrm</code></h2>
+<ul>
+<li>CRAN downloads: around 100 per day in Oct 2023
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/mmrm/">https://cran.r-project.org/web/packages/mmrm/</a></li>
+<li>new CRAN release v0.3 coming any day now!</li>
+</ul></li>
+<li>GitHub repository: 73 stars as of 17 Oct 2023
+<ul>
+<li><a href="https://github.com/openpharma/mmrm">https://github.com/openpharma/mmrm</a></li>
+</ul></li>
+<li>Part of CRAN clinical trials task view</li>
+</ul>
+</section>
+<section id="outlook" class="slide level2">
+<h2>Outlook</h2>
+<ul>
+<li><code>mmrm</code> is now relatively complete for mostly needed features</li>
+<li>We still have a few major ideas on our backlog:
+<ul>
+<li>Type II and Type III ANOVA tests</li>
+<li>Evaluate adding (simple) random effects</li>
+</ul></li>
+<li>Please let us know what is missing in <code>mmrm</code> for you!</li>
+</ul>
+</section></section>
+<section>
+<section id="hands-on-demo-time" class="title-slide slide level1 center">
+<h1>Hands-On Demo Time!</h1>
+
+</section>
+<section id="demo-instructions" class="slide level2">
+<h2>Demo Instructions</h2>
+<p>Doug can you include here basic instructions (maybe screenshot if needed) how folks can log into the Posit cloud for the demo?</p>
+</section></section>
+<section>
+<section id="open-source-development-across-companies" class="title-slide slide level1 center">
+<h1>Open source development across companies</h1>
+
+</section>
+<section id="introducing-openstatsware" class="slide level2">
+<h2>Introducing <code>openstatsware</code></h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p>Founded last year:</p>
+<ul>
+<li>When: 19 August 2022 - just celebrated our 1 year birthday!</li>
+<li>Where: American Statistical Association (ASA) Biopharmaceutical Section (BIOP)</li>
+<li>Initially: 11 statisticians from 7 pharma companies developing statistical software</li>
+<li>New name: <code>openstatsware</code></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img data-src="https://github.com/RConsortium/asa-biop-swe-wg/raw/main/sticker/sticker-new-1200.png" height="300"></p>
+</div>
+</div>
+</section>
+<section id="mmrm-was-our-first-workstream" class="slide level2">
+<h2><code>mmrm</code> was our first workstream</h2>
+<ul>
+<li>Why is the MMRM topic important?
+<ul>
+<li>MMRM is a popular analysis method for longitudinal continuous outcomes in randomized clinical trials</li>
+<li>Also used as backbone for more recent methods such as multiple imputation</li>
+</ul></li>
+<li>See also our second workstream that produced <a href="https://openpharma.github.io/brms.mmrm/"><code>brms.mmrm</code></a>
+<ul>
+<li>Bayesian inference in MMRM, based on <code>brms</code> (as Stan frontend for HMC sampling)</li>
+</ul></li>
+</ul>
+</section>
+<section id="human-success-factors" class="slide level2">
+<h2>Human success factors</h2>
+<ul>
+<li>Mutual interest and mutual trust</li>
+<li>Prerequisite is getting to know each other
+<ul>
+<li>Although mostly just online, biweekly calls help a lot with this</li>
+</ul></li>
+<li>Reciprocity mindset
+<ul>
+<li>“Reciprocity means that in response to friendly actions, people are frequently much nicer and much more cooperative than predicted by the self-interest model”</li>
+<li>Personal experience: If you first give away something, more will come back to you.</li>
+</ul></li>
+</ul>
+</section>
+<section id="be-inclusive-in-the-development" class="slide level2">
+<h2>Be inclusive in the development</h2>
+<ul>
+<li>Important to go public as soon as possible
+<ul>
+<li>We did not wait for <code>mmrm</code> to be finished before initial open sourcing</li>
+<li>Many developers contributed over time</li>
+</ul></li>
+<li>Building software together works better than alone
+<ul>
+<li>Different perspectives in discussions and code review help to optimize the user interface and thus experience</li>
+<li>Be generous with authorship</li>
+</ul></li>
+</ul>
+</section>
+<section id="practical-daily-development-process" class="slide level2">
+<h2>Practical daily development process</h2>
+<p>Doug would you like to add here a few slides?</p>
 
 <div class="footer footer-default">
 <p>From the statistical method to the R package - the <code>mmrm</code> example | <a href="http://creativecommons.org/licenses/by-sa/4.0/" title="License: CC BY-SA 4.0">License</a></p>
@@ -2028,6 +2225,7 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2326,9 +2524,10 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      function tippyHover(el, contentFn) {
         const config = {
           allowHTML: true,
+          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2338,17 +2537,8 @@ Daniel Sabanés Bové, Doug Kelkhoff (Roche)
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start',
+          placement: 'bottom-start'
         };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
