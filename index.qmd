@@ -156,7 +156,7 @@ Idea was then to use the Template Model Builder (`TMB`) library directly:
 #| warning: false
 #| class-output: "sourceCode r"
 
-cat(readLines("resources/design_fit.Rmd"), sep = "\n")
+cat(readLines("resources/_design_fit.Rmd"), sep = "\n")
 ```
 
 ## Example: `mmrm` (cont'd)
